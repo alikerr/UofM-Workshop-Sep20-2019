@@ -1,0 +1,92 @@
+# ==============================================================================
+#                  Input File for runing simulations using LAMMPS              =
+#                        Ali Kerrache (August, 2008)                           =
+# ==============================================================================
+
+# ==============================================================================
+# Initialization:                                                              =
+# atom_modify, atom_style, boundary, dimension, newton, processors, units      =
+# ==============================================================================
+
+dimension          3                # 2D or 3D simulation
+boundary           p p p            # PBC xyz=p or s or f or m, 1 or 2 letters
+units              metal            # lj or real or metal or si or cgs
+atom_style         atomic           # angle, atomic, bond, charge, dipole, dpd
+                                    # ellipsoid, full, granular, molecular, peri
+                                    # hybrid
+
+# ==============================================================================
+# Atom definition:                                                             =
+# create_atoms, create_box, lattice, read_data, read_restart, region, replicate=
+# ==============================================================================
+
+#lattice            bcc 3.270               # Lattice = none, sc, bcc, fcc, hcp 
+#                                           # diamond, sq, sq2, hex, custom
+#region             box block 0 1 0 1 0 1   # region = block, cylinder, prism,  
+#                                           # sphere, union, intersect
+#create_box         2 box                   # To create the box with N elements
+#create_atoms       2 box                   # Create Atoms
+#replicate          12 12 12                # Replicate the box : nx, ny, nz
+
+read_data          config_liquid_3456.xyz 
+
+# ==============================================================================
+# Force fields:                                                                =
+# ==============================================================================
+
+pair_style         eam/fs
+pair_coeff         * * Cu-Zr_2.eam.fs Cu Zr #Cu
+
+# ==============================================================================
+# Settings:                                                                    =
+# communicate, dipole, group, mass, min_modify, min_style, neigh_modify,       =
+# neighbor, reset_timestep, run_style, set, shape, timestep, velocity          =
+# ==============================================================================
+
+mass              1 63.546            # To set the mass of each particle
+mass              2 91.224            # To set the mass of each particle
+
+timestep          0.001              # Time step = 0.001 psec for units = metal
+neighbor          2.0 bin            # To update the neighbor list
+#neigh_modify      delay 5            # How to built neighbor list : 
+                                     # delay, every, check, include, exclude
+                                     # page, one, binsize
+min_style         cg                 # Minimization algorithm = cg, sd
+run_style         verlet             # MD Algorithm = Velocity Verlet 
+
+# ==============================================================================
+# Minimization: minimize etol ftol maxiter maxeval
+# ==============================================================================
+
+#minimize        1.0e-4 1.0e-6 100 1000
+
+variable        sim_temp equal 1000.0
+velocity        all create ${sim_temp} 4928459 rot yes dist gaussian
+
+thermo_style    custom step temp press pe ke etotal enthalpy vol lx ly lz &
+xlo xhi ylo yhi zlo zhi pxx pyy pzz pxy pxz pyz
+thermo          25
+
+#fix             1 all nve
+#fix             1 all nvt temp ${sim_temp} ${sim_temp} 0.001 drag 0.2
+
+fix             1 all npt temp ${sim_temp} ${sim_temp} 0.001 iso 0.0 0.0 1.0
+
+#reset_timestep 0
+
+variable       sim_run equal 0
+log            log.lammps_${sim_run}
+run            10000
+write_restart  restart.file_equil_npt_${sim_run}
+write_data     config_end_run_0
+
+variable       sim_run equal 1
+log            log.lammps_${sim_run}
+dump           1 all atom 200 dump.pos_CuZr_${sim_run}
+run            10000
+write_restart  restart.file_equil_npt_${sim_run}
+write_data     config_end_run_1
+
+# ==============================================================================
+# End Of Input File
+# ==============================================================================

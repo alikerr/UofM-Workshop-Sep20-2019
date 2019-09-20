@@ -1,0 +1,67 @@
+* Programs:
+-----------
+
+1. Program to print Hello world: OpenMP version in C and Fortran 90
+
+   helloworld_loop_c_omp.c
+   helloworld_loop_f90_omp.f90
+
+   Note that the number of threads is passed via a variable OMP_NUM_THREADS
+
+   export OMP_NUM_THREADS=4
+
+2. Program to compute pi (3.14): serial version (C and Fortran 90 versions)
+
+   compute_pi_c_omp_reduction.c  
+   compute_pi_f90_omp_reduction.f90  
+
+   Note that the maximum of number of thread is hard coded in the program and fixed to 4.
+   The purpose of the code is to run a loop over the available threads from 1 to 4 and 
+   print the thime used for computing pi.
+   
+* Compilation using Makefile:
+-----------------------------
+  Makefile.GNU  ===> Makefile for GNU compilers.
+  Makefile.GNU  ===> Makefile for INTEL compilers.
+
+  To compile with GNU compilers: gcc, gfortran
+
+  Load gcc compiler
+  * Compile using: make -f Makefile.GNU
+  * Clean up using: make -f Makefile.GNU clean 
+  or cp Makefile.GNU Makefile 
+  * Compile using: make
+  * Clean up using: make clean
+
+  To compile with Intel compilers: icc, ifort
+
+  Load gcc compiler
+  * Compile using: make -f Makefile.GNU
+  * Clean up using: make -f Makefile.GNU clean  
+  or cp Makefile.GNU Makefile   
+  * Compile using: make
+  * Clean up using: make clean  
+
+  After compilation, there is an executable for each program:
+  the name is the same as the program but with the extension "x"
+
+* Scripts: 
+----------
+ After compilation (GNU or Intel compilers), 
+ use a script to run the corresponding program:
+
+* Run the script interactively:
+-------------------------------
+
+  ./compute_pi_c_omp_reduction.sh
+  ./compute_pi_f90_omp_reduction.sh
+  ./helloworld_loop_c_omp.sh
+  ./helloworld_loop_f90_omp.sh
+
+* Submit jobs:
+--------------
+
+  qsub run-helloworld-omp.sh
+  qsub run-pi-omp.sh
+
+---

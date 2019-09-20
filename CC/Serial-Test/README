@@ -1,0 +1,72 @@
+* Programs:
+-----------
+
+1. Program to print Hello world: serial version in C and Fortran 90
+
+   hello_c_seq.c
+   hello_f90_seq.f90
+   helloworld_c_seq.c
+   helloworld_f90_seq.f90
+
+2. Program to compute pi (3.14): serial version (C and Fortran 90 versions)
+ 
+   compute_pi_c_seq.c
+   compute_pi_f90_seq.f90
+
+* Compilation using Makefile:
+-----------------------------
+  Makefile.GNU  ===> Makefile for GNU compilers.
+  Makefile.GNU  ===> Makefile for INTEL compilers.
+
+  To compile with GNU compilers: gcc, gfortran
+
+  Load gcc compiler
+  * Compile using: make -f Makefile.GNU
+  * Clean up using: make -f Makefile.GNU clean 
+  or cp Makefile.GNU Makefile 
+  * Compile using: make
+  * Clean up using: make clean
+
+  To compile with Intel compilers: icc, ifort
+
+  Load gcc compiler
+  * Compile using: make -f Makefile.GNU
+  * Clean up using: make -f Makefile.GNU clean  
+  or cp Makefile.GNU Makefile   
+  * Compile using: make
+  * Clean up using: make clean  
+
+  After compilation, there is an executable for each program:
+  the name is the same as the program but with the extension "x"
+
+* Scripts: 
+----------
+ After compilation (GNU or Intel compilers), 
+ use a script to run the corresponding program:
+
+ * compute_pi_c_seq.sh  
+ * compute_pi_f90_seq.sh  
+ * hello_c_seq.sh  
+ * hello_f90_seq.sh  
+ * helloworld_c_seq.sh  
+ * helloworld_f90_seq.sh
+
+* Run the script interactively:
+-------------------------------
+
+  To run the programs interactively, use one of the following commands:
+
+  ./compute_pi_c_seq.sh
+  ./compute_pi_f90_seq.sh  
+  ./hello_c_seq.sh
+  ./hello_f90_seq.sh
+  ./helloworld_c_seq.sh
+  ./helloworld_f90_seq.sh
+
+* Submit jobs:
+--------------
+
+  sbatch --account=<some_account> run-helloworld.sh
+  sbatch --account=<some_account> run-pi.sh
+
+--

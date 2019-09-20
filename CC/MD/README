@@ -1,0 +1,38 @@
+* Test: Molecular Dynamics program.
+-----------------------------------
+
+  Examples: CuZr and Silica
+
+  * Serial Test: 
+    - NPT_CuZr_Serial
+    - Vashishta_SiO2_Serial
+
+  * MPI Test: 
+    - NPT_CuZr_MPI
+    - Vashishta_SiO2_MPI
+
+  * No compilation needed: we use existing modules.
+
+  * The job use an existing installed module:
+    it takes some input files and generate some output.
+
+* Scripts and jobs: 
+-------------------
+
+  In each directory, there is a script to run the job:
+
+  For serial test: 
+
+  sbatch --account=<some_account> run-lmp-serial.sh
+
+  For MPI test:
+
+  sbatch --account=<some_account> run-lmp-mpi.sh
+
+* Testing with different number of cores:
+
+  edit the script "run-lmp-mpi.sh" and change the number of 
+  cores and run the job.
+
+---
+
